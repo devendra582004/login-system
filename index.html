@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Page</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <p id="loginMsg" style="color: green; text-align: center;"></p>
+
+    <form id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Username" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <p id="loginErrorMsg"></p>
+    <p>Don't have an account? <a href="register.html">Register here</a></p>
+  </div>
+
+  <script>
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    const storedUser = JSON.parse(localStorage.getItem(username));
+
+    if (storedUser && storedUser.password === password) {
+      localStorage.setItem("loggedInUser", username); // ✅ Important for mypage.html access
+      window.location.href = "mypage.html";           // ✅ Redirect to your custom page
+    } else {
+      document.getElementById("loginErrorMsg").textContent = "❌ Invalid credentials!";
+    }
+    
+  const msg = localStorage.getItem("justRegistered");
+  if (msg === "true") {
+    document.getElementById("loginMsg").textContent = "✅ Registration successful! Please login now.";
+    localStorage.removeItem("justRegistered");
+  }
+
+
+  });
+</script>
+
+</body>
+</html>
